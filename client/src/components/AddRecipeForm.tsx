@@ -51,6 +51,8 @@ export default function AddRecipeForm({
                 setIsDisabled(false)    
             }else{
                 console.log(parseRes)
+                e.target.reset()
+                setIsDisabled(false)    
                 functions.getUserRecipes()
             }
         }catch(error:any){

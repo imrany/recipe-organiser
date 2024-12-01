@@ -34,8 +34,9 @@ export const addRecipe = async (req: any, res: any) => {
 
 export const searchRecipeUsingQueryParams = async (req: any, res: any) => {
     try {
-        const { recipe_name }=req.query
-        const findRecipe=await recipeModel.find({recipe_name})
+        const { recipe_name, email }=req.query
+        console.log(recipe_name, email)
+        const findRecipe=await recipeModel.find({recipe_name,email})
         if(findRecipe){
             res.json({recipe:findRecipe})
         }else{

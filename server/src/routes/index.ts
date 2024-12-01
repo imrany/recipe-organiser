@@ -16,7 +16,7 @@ router.get("/recipes",protectUser,fetchRecipes)
 router.get("/recipes/:email",protectUser,fetchUserRecipes)
 router.patch("/recipes/:id",protectUser,updateRecipe)
 router.delete("/recipes/:id",protectUser,deleteRecipe)
-//get: https://example.com/api/recipe?recipe_name=chocolate
+//get: https://example.com/api/recipe?recipe_name=chocolate&email=example@gmail.com
 router.get("/recipe",protectUser,searchRecipeUsingQueryParams)
 //get: https://example.com/api/recipe/1617617
 router.get("/recipe/:id",protectUser,fetchUserRecipesById)

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { ChevronRight, Home, Menu, Plus } from "lucide-react";
+import { ChevronRight, Home, LogOut, Menu, Plus } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import {
     Drawer,
@@ -63,6 +63,11 @@ export default function Header({
     }else{
         setIsMobile(true)
     }
+  }
+
+  function logout(){
+    localStorage.clear()
+    window.location.reload()
   }
 
   
@@ -129,6 +134,18 @@ export default function Header({
                                                 <AddRecipeForm  functions={functions}/>
                                             </DialogContent>
                                         </Dialog>
+                                        <Button onClick={()=>{
+                                            logout()
+                                            handleClose()
+                                        }} variant="ghost" asChild>
+                                            <span className="flex items-center w-full">
+                                                <span className="flex gap-2 items-center">
+                                                    <LogOut className="text-[var(--primary-01)] w-[20px] h-[20px]"/>
+                                                    <span>Sign out</span>
+                                                </span>
+                                                <ChevronRight className="ml-auto w-[30px] h-[30px] text-[var(--primary-01)]"/>
+                                            </span>
+                                        </Button>
                                     </div>
                                     <DrawerFooter>
                                         <DrawerClose asChild>
@@ -150,10 +167,8 @@ export default function Header({
                                 </Button>
                             ))}
                             
-                            <Button className="rounded-[50px] text-sm flex items-center justify-center text-slate-800 bg-gray-300 hover:bg-gray-300" asChild>
-                                <Link to="/">
-                                    {`Logged in as ${userDetails.username}`}
-                                </Link>
+                            <Button title="Log out" onClick={logout} className="rounded-[50px] text-sm flex items-center justify-center text-slate-800 bg-gray-300 hover:bg-gray-300" asChild>
+                                {`Logged in as ${userDetails.username}`}
                             </Button>
                         </div>
                     )}

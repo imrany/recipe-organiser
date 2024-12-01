@@ -2,7 +2,6 @@ import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -14,6 +13,7 @@ import { RecipeType } from "../types";
 import { useEffect, useState } from "react";
 import AddRecipeForm from "./AddRecipeForm";
 import { Skeleton } from "./ui/skeleton";
+import SearchRecipe from "./SearchRecipe";
 
 export default function Body({
     recipes,
@@ -21,7 +21,8 @@ export default function Body({
 }:{
     recipes:RecipeType[],
     functions:{
-        getUserRecipes:any
+        getUserRecipes:any,
+        handleSearchRecipe:any
     }
 }) {
  const [isMobile,setIsMobile]=useState(false)
@@ -43,10 +44,10 @@ export default function Body({
             <p className="text-xl font-semibold text-[var(--primary-01)]">Favorite recipes</p>
             {!isMobile?(
                 <div className="flex gap-2 items-center flex-wrap">
-                    <form className="flex items-center rounded-[50px] gap-2 bg-slate-100 py-2 px-3">
+                    <div className="flex items-center rounded-[50px] gap-2 bg-slate-100 py-2 px-3">
                         <Search className="text-gray-500 w-[20px] h-[20px]"/>
-                        <input id="search" name="search" type="search" placeholder="Search recipe..." className="bg-slate-100 h-full border-none active:border-none focus:outline-none active:outline-none focus:border-none" required/>
-                    </form>
+                        <input id="search" onChange={(e)=>functions.handleSearchRecipe(e.target.value)} name="search" type="search" placeholder="Search recipe..." className="bg-slate-100 h-full border-none active:border-none focus:outline-none active:outline-none focus:border-none" required/>
+                    </div>
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button variant="outline" className="flex gap-2 rounded-[50px]">
@@ -80,15 +81,7 @@ export default function Body({
                                     Search for any recipe by its name
                                 </DialogDescription>
                             </DialogHeader>
-                            <form className="grid gap-4 py-4">
-                                <div className="flex items-center rounded-md gap-2 bg-slate-100 py-2 px-3">
-                                    <Search className="text-gray-500 w-[20px] h-[20px]"/>
-                                    <input id="search" name="search" type="search" placeholder="Search recipe..." className="bg-slate-100 h-full border-none active:border-none focus:outline-none active:outline-none focus:border-none" required/>
-                                </div>
-                                <DialogFooter>
-                                    <Button type="submit" className="bg-[var(--primary-01)] hover:bg-[var(--primary-01)]">Search</Button>
-                                </DialogFooter>
-                            </form>
+                            <SearchRecipe functions={functions}/>
                         </DialogContent>
                     </Dialog>
 
@@ -111,7 +104,7 @@ export default function Body({
                 </div>
             )}
         </div>
-        {recipes&&recipes[0].email?(
+        {recipes&&recipes.length!==0?(
             <>
                 <div className="flex flex-wrap items-center gap-2">
                     <Button variant="outline" className="ml-auto flex gap-2 rounded-[50px]">
