@@ -1,0 +1,37 @@
+{{#if user}}
+    <footer class="flex max-md:flex-col bg-[var(--primary-01)] justify-center md:justify-between h-[300px] py-12 px-6 max-md:gap-y-8 md:px-12 text-sm font-[family-name:var(--font-geist-mono)] text-white">
+        <div class="flex flex-col gap-1">
+            <p>Recipe organiser</p>
+            <p class="flex gap-2 items-center text-xs">
+                <svg class="w-[15px] h-[15px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M15 9.72a4 4 0 1 0 0 4.56"></path></svg>
+                <span>2024 Copyright All rights reserved</span>
+            </p>
+        </div>
+        <div class="flex gap-2 justify-center md:justify-between">
+            <div class="flex flex-col items-start justify-start max-md:w-[80vw] w-[200px] gap-2">
+                <p class="text-lg">Product</p>
+                <div class="flex flex-col items-start gap-2">
+                    <a href="/register" class="text-white bg-none m-0 p-0">Register</a>
+                    <a href="/login" class="text-white bg-none m-0 p-0">Login</a>
+                    <a href="https://github.com" class="flex items-center justify-center gap-2 text-white bg-none m-0 p-0" target="_blank" rel="noopener noreferrer">
+                        Github <span>↗</span>
+                    </a>
+                </div>
+            </div>
+            <div class="flex flex-col items-start max-md:w-[80vw] w-[200px] justify-start gap-2">
+                <p class="text-lg">Social</p>
+                <div class="flex flex-col items-start gap-2">
+                    <a href="https://x.com/" class="flex items-center justify-center gap-2 text-white bg-none m-0 p-0" target="_blank" rel="noopener noreferrer">
+                        Twitter <span>↗</span>
+                    </a>
+                    <a href="https://instagram.com" class="flex items-center justify-center gap-2 text-white bg-none m-0 p-0" target="_blank" rel="noopener noreferrer">
+                        Instagram <span>↗</span>
+                    </a>
+                    <a href="https://discord.gg" class="flex items-center justify-center gap-2 text-white bg-none m-0 p-0" target="_blank" rel="noopener noreferrer">
+                        Discord <span>↗</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+{{/if}}

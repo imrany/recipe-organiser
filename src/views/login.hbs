@@ -1,0 +1,59 @@
+<div class="flex items-center flex-col h-screen">
+  <div class="md:w-[500px] w-[90vw] flex items-center rounded-none h-screen shadow-none">
+    <div id="card" class="bg-card text-card-foreground w-full  rounded-none shadow-none border-none">
+      <div id="card-header" class="flex flex-col space-y-1.5 pb-4">
+        <div id="card-title" class="font-semibold leading-none tracking-tight text-3xl text-[var(--primary-01)]">Welcome Back!</div>
+        <div id="card-description" class="text-sm text-muted-foreground">Get started by sign in to your account.</div>
+      </div>
+      <div id="card-content" class="flex flex-col">
+        {{#if error}}
+            <p class="text-red-500 text-sm">{{error}}</p>
+        {{/if}}
+        <form action="/api/login" method="POST">
+          <div class="grid w-full items-center gap-4">
+            <div class="flex flex-col space-y-1.5">
+              <label for="email" class="text-[var(--primary-01)] font-semibold">Email address</label>
+              <input id="email" name="email" type="email" placeholder="Enter your email" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm border-[var(--primary-03)] outline-[1px] active:outline-[var(--primary-01)] focus:border-[var(--primary-01)] outline-[var(--primary-01)]" required/>
+            </div>
+            <div class="flex flex-col space-y-1.5">
+              <label for="password" class="text-[var(--primary-01)] font-semibold">Password</label>
+              <input id="password" name="password" min-length="8" max-length="24" type="password" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm border-[var(--primary-03)] outline-[1px] active:outline-[var(--primary-01)] focus:border-[var(--primary-01)] outline-[var(--primary-01)]" placeholder="Password" required/>
+            </div>
+            <div class="sm:flex md:items-center sm:justify-between">
+              <div class="flex items-center justify-center sm:justify-start py-2 sm:py-0">
+                <input id="push-email" value="false" name="push-notifications" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-[var(--primary-01)] focus:ring-[var(--primary-01)]"/>
+                <label for="push-email" class="ml-3">
+                  <span class="block text-sm font-medium text-[var(--primary-01)]">
+                    Remember for 30 days
+                  </span>
+                </label>
+              </div>
+              <div class="py-2 sm:py-0 text-center sm:text-left">
+                <a href="/forgot-password" class="ml-auto hover:underline text-[var(--primary-01)] md:text-sm text-xs">Forgot Password</a>
+              </div>
+            </div>
+            <button type="submit" class="text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-[40px] bg-[var(--primary-01)] font-semibold hover:bg-[var(--primary-01)]">Login</button>
+            <div class="relative">
+              <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                <div class="w-full border-t border-gray-200"></div>
+              </div>
+              <div class="relative flex justify-center text-sm font-medium leading-6">
+                <span class="bg-white px-6 text-gray-600">Or continue with</span>
+              </div>
+            </div>
+            <div class="flex flex-col space-y-1.5">
+              <button type="button" class="border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-[40px] font-semibold border">
+                <img alt="" src="/google-vector.svg" width="18" height="18"/>
+                <span>Sign in with Google</span>
+              </button>
+            </div>
+            <div class="flex gap-2 text-gray-600 items-center justify-center md:text-sm text-xs">
+              <p>Don't have an account?</p>
+              <a href="/register" class="hover:underline text-[var(--primary-01)] md:text-sm text-xs">Create account</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

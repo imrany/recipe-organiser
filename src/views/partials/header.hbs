@@ -1,0 +1,91 @@
+{{#if user}} 
+  <header class="border-b-[1px] bg-white z-50 fixed top-0 left-0 right-0">
+    <div class="my-2 mx-2 max-md:my-4 max-md:mx-4">
+      <nav class="flex justify-between items-center w-full md:px-5">
+        <a href="/" class="flex gap-2 text-[var(--primary-01)] font-semibold">
+          Recipe organiser
+        </a>
+        <div id="nav"></div>
+      </nav>
+    </div>
+  </header>
+
+  <script>
+    const nav=document.getElementById("nav")
+    function toggleDrawer() {
+      const drawer = document.getElementById('drawer');
+      if (drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+      } else {
+        drawer.classList.add('hidden');
+      }
+    }
+    
+    function closeDrawer() {
+      const drawer = document.getElementById('drawer');
+      drawer.classList.add('hidden');
+    }
+    
+    function showDialog() {
+      // Implement your dialog functionality here
+      alert('Show Add Recipe Dialog');
+    }
+    
+    function logout() {
+      localStorage.clear();
+      window.location.reload();
+    }
+
+    let isMobile=false
+    
+    const mobileMenu=`
+      <button class="w-[23px] h-[23px] text-[var(--primary-01)]" onclick="toggleDrawer()">☰</button>
+      <div id="drawer" class="drawer-content shadow-md border-t-[1px] w-screen h-[30vh] fixed left-0 right-0 bottom-0 bg-white z-100">
+        <div class="mx-auto flex px-4 flex-col h-full w-full">
+          <div class="flex flex-col items-center my-2 gap-y-4 p-4 pb-0">
+            {{#each mobileLinks}}
+              <a href="{{this.href}}" class="{{this.class}}">
+                <span>{{this.label}}</span>
+              </a>
+            {{/each}}
+          </div>
+          <button class="text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-[40px] bg-[var(--primary-01)] font-semibold hover:bg-[var(--primary-01)]" onclick="closeDrawer()">Close Menu</button>
+        </div>
+      </div>
+    `
+
+    const desktopMenu=`
+    <div id="desktop_nav" class="flex items-center gap-2">
+      <form action="/recipe">
+        <input type
+      </form>
+      {{#each links}}
+        <a href="{{this.href}}" class="{{this.class}}">
+          {{this.label}}
+        </a>
+      {{/each}}
+      <button onclick="logout()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2 rounded-[50px] text-sm flex items-center justify-center text-slate-800 bg-gray-300 hover:bg-gray-300">
+        Logged in as {{user.username}}
+      </button>
+    </div>
+    `
+    // Handle screen resize
+    function checkScreen() {
+      isMobile = window.innerWidth <= 768;
+      //const mobileMenu = document.getElementById('mobile-menu');
+      //const desktopMenu = document.getElementById('desktop-nav');
+      if (isMobile) {
+        //mobileMenu.classList.remove('hidden');
+        //desktopMenu.classList.add('hidden');
+        nav.innerHTML=mobileMenu
+      } else {
+        //mobileMenu.classList.add('hidden');
+        //desktopMenu.classList.remove('hidden');
+        nav.innerHTML=desktopMenu
+      }
+    }
+    
+    window.addEventListener('resize', checkScreen);
+    window.addEventListener('load', checkScreen);
+  </script>
+{{/if}}
