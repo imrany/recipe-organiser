@@ -1,7 +1,7 @@
 <div class="flex font-[family-name:var(--font-geist-sans)] pt-[63px] h-screen flex-col w-full p-4">
     <div class="flex items-center flex-wrap justify-between gap-1 mb-6">
         <p class="text-xl font-semibold text-[var(--primary-01)]">Favorite recipes</p>
-        <div id="nav"></div>
+        <div id="header"></div>
     </div>
     {{#if recipes}}
         {{!-- <div class="flex flex-wrap items-center gap-2">
@@ -46,7 +46,6 @@
 </div>
 
  <script>
-    const nav=document.getElementById("nav")
     function toggleDrawer() {
       const drawer = document.getElementById('drawer');
       if (drawer.classList.contains('hidden')) {
@@ -71,72 +70,68 @@
       window.location.reload();
     }
 
-    let isMobile=false
-    
-    const mobileMenu=`
-    <div class="flex gap-2 items-center flex-wrap">
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="outline" class="flex items-center justify-center h-[35px] w-[32px] rounded-[50px]">
-                    <Search />
-                </Button>
-            </DialogTrigger>
-            <DialogContent class="sm:max-w-[425px] w-[90vw] rounded-md">
-                <DialogHeader>
-                    <DialogTitle>Search</DialogTitle>
-                    <DialogDescription>
-                        Search for any recipe by its name
-                    </DialogDescription>
-                </DialogHeader>
-                <SearchRecipe functions={functions}/>
-            </DialogContent>
-        </Dialog>
+    function addRecipe(){
+        window.location.href="/add-recipe"
+        closeDrawer()
+    }    
 
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="outline" class="flex items-center justify-center h-[35px] w-[32px] rounded-[50px]">
-                    <Plus />
-                </Button>
-            </DialogTrigger>
-            <DialogContent class="sm:max-w-[425px] w-[90vw] rounded-md">
-                <DialogHeader>
-                    <DialogTitle>Add recipe</DialogTitle>
-                    <DialogDescription>
-                        Add a new recipe
-                    </DialogDescription>
-                </DialogHeader>
-                <AddRecipeForm functions={functions}/>
-            </DialogContent>
-        </Dialog>
-    </div>
-    `
+    async function handleSearch(event){
+        try{
+            event.preventDefault()
+            window.location.href=`/recipes?recipe_name=${event.target.recipe_name.value}`
+        }catch(error){
+            alert(error.message)
+        }
+    }
 
-    const desktopMenu=`
-    <div class="flex gap-2 items-center flex-wrap">
-        <div class="flex items-center rounded-[50px] gap-2 bg-slate-100 py-2 px-3">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M793-94 539-348q-30 23-73.5 36.5T377-298q-119 0-201.5-82.5T93-582q0-119 82.5-201.5T377-866q119 0 201.5 82.5T661-582q0 45-12.5 86T612-423l255 255-74 74ZM377-404q75 0 126.5-51.5T555-582q0-75-51.5-126.5T377-760q-75 0-126.5 51.5T199-582q0 75 51.5 126.5T377-404Z"/></svg>
-            <input id="search" onChange={(e)=>functions.handleSearchRecipe(e.target.value)} name="search" type="search" placeholder="Search recipe..." class="bg-slate-100 h-full border-none active:border-none focus:outline-none active:outline-none focus:border-none" required/>
-        </div>
-        <Button variant="outline" class="flex gap-2 rounded-[50px]">
-            <p>Add New Recipe</p>
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M427-428H168v-106h259v-259h106v259h259v106H533v259H427v-259Z"/></svg>
-        </Button>
-    </div>
-    `
+    function refresh(){
+        window.location.href="/recipes"
+    }
+
     // Handle screen resize
     function checkScreen() {
-      isMobile = window.innerWidth <= 768;
-      //const mobileMenu = document.getElementById('mobile-menu');
-      //const desktopMenu = document.getElementById('desktop-nav');
-      if (isMobile) {
-        //mobileMenu.classList.remove('hidden');
-        //desktopMenu.classList.add('hidden');
-        nav.innerHTML=mobileMenu
-      } else {
-        //mobileMenu.classList.add('hidden');
-        //desktopMenu.classList.remove('hidden');
-        nav.innerHTML=desktopMenu
-      }
+        const mobileMenu=`
+        <div class="flex gap-2 items-center flex-wrap" onclick="toggleDrawer()">
+            <button class="border-[1px] hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 px-4 py-2 flex items-center justify-center h-[35px] w-[32px] rounded-[50px]">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M793-94 539-348q-30 23-73.5 36.5T377-298q-119 0-201.5-82.5T93-582q0-119 82.5-201.5T377-866q119 0 201.5 82.5T661-582q0 45-12.5 86T612-423l255 255-74 74ZM377-404q75 0 126.5-51.5T555-582q0-75-51.5-126.5T377-760q-75 0-126.5 51.5T199-582q0 75 51.5 126.5T377-404Z"/></svg>
+            </button>
+            <button onclick="addRecipe()" class="border-[1px] hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 px-4 py-2 flex items-center justify-center h-[35px] w-[32px] rounded-[50px]">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M427-428H168v-106h259v-259h106v259h259v106H533v259H427v-259Z"/></svg>
+            </button>
+            <button onclick="refresh()" class="border-[1px] hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 px-4 py-2 flex items-center justify-center h-[35px] w-[32px] rounded-[50px]">
+                <svg xmlns=" http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M479-126q-146 0-249-103T127-478q0-146 103-251t249-105q70 0 134 29t114 77v-106h106v334H499v-106h188q-34-54-89-85t-119-31q-103 0-174.5 71T233-478q0 103 71.5 174.5T479-232q78 0 141.5-44.5T709-396h110q-29 118-123.5 194T479-126Z"/></svg>
+            </button>
+        `
+        const desktopMenu=`
+        <div class="flex gap-2 items-center flex-wrap">
+            <form onsubmit="handleSearch(event)" class="flex items-center rounded-[50px] gap-2 bg-slate-100 py-2 px-3">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M793-94 539-348q-30 23-73.5 36.5T377-298q-119 0-201.5-82.5T93-582q0-119 82.5-201.5T377-866q119 0 201.5 82.5T661-582q0 45-12.5 86T612-423l255 255-74 74ZM377-404q75 0 126.5-51.5T555-582q0-75-51.5-126.5T377-760q-75 0-126.5 51.5T199-582q0 75 51.5 126.5T377-404Z"/></svg>
+                <input id="recipe_name" name="recipe_name" type="search" placeholder="Search recipe..." class="bg-slate-100 h-full border-none active:border-none focus:outline-none active:outline-none focus:border-none" required/>
+            </form>
+            <button onclick="addRecipe()" class="hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2 flex gap-2 border-[1px] rounded-[50px]">
+                <p>Add New Recipe</p>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M427-428H168v-106h259v-259h106v259h259v106H533v259H427v-259Z"/></svg>
+            </button>
+            <button onclick="refresh()" class="hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2 flex gap-2 border-[1px] rounded-[50px]">
+                <p>Refresh</p>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M479-126q-146 0-249-103T127-478q0-146 103-251t249-105q70 0 134 29t114 77v-106h106v334H499v-106h188q-34-54-89-85t-119-31q-103 0-174.5 71T233-478q0 103 71.5 174.5T479-232q78 0 141.5-44.5T709-396h110q-29 118-123.5 194T479-126Z"/></svg>
+            </button>
+        </div>
+        `
+        const header=document.getElementById("header")
+        let isMobile=false
+        isMobile = window.innerWidth <= 768;
+        //const mobileMenu = document.getElementById('mobile-menu');
+        //const desktopMenu = document.getElementById('desktop-nav');
+        if (isMobile) {
+            //mobileMenu.classList.remove('hidden');
+            //desktopMenu.classList.add('hidden');
+            header.innerHTML=mobileMenu
+        } else {
+            //mobileMenu.classList.add('hidden');
+            //desktopMenu.classList.remove('hidden');
+            header.innerHTML=desktopMenu
+        }
     }
     
     window.addEventListener('resize', checkScreen);

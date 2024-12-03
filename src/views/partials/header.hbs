@@ -40,9 +40,9 @@
     
     const mobileMenu=`
       <button class="w-[23px] h-[23px] text-[var(--primary-01)]" onclick="toggleDrawer()">☰</button>
-      <div id="drawer" class="drawer-content shadow-md border-t-[1px] w-screen h-[30vh] fixed left-0 right-0 bottom-0 bg-white z-100">
+      <div id="drawer" onclick="closeDrawer()" class="drawer-content shadow-md border-t-[1px] w-screen h-[30vh] fixed left-0 right-0 bottom-0 bg-white z-100">
         <div class="mx-auto flex px-4 flex-col h-full w-full">
-          <div class="flex flex-col items-center my-2 gap-y-4 p-4 pb-0">
+          <div class="flex flex-col my-2 gap-y-4 p-4 pb-0">
             {{#each mobileLinks}}
               <a href="{{this.href}}" class="{{this.class}}">
                 <span>{{this.label}}</span>
