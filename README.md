@@ -2,8 +2,8 @@ Welcome to recipe-organiser where you can discover, organise and create new reci
 
 ### Run locally
 - Make sure you've install
-    - `MongoDB` 
-    - `MongoDB Compass`
+    - `MongoDB` (optional, you can use mongodb atlas)
+    - `MongoDB Compass` (optional)
     - Nodejs v18.x.x or above
     - vscode
 
@@ -54,15 +54,6 @@ For directions / instructions:
 > `- Warm the water`<br/>
 `- Stir the hot water while adding cocoa powder`
 
-### Development
-- [/public]("./public") - contains all static assets like images, css, js, svg and manifest.json
-- [/src]("/src") - contain all the code and logic
-- All the routes are allocated in [/src/routes]("./src/routes")
-    - `/src/routes/view.mjs` - this contains all the views routes for rendering the handlebars templates in [/src/views]("/src/views")
-    - `/src/routes/index.mjs` - this contains all the api routes for controllers in [/src/controllers]("/src/controllers")
-- `.env` - contains all environment variables
-- `/src/middleware.mjs` - handle authentication logic 
-
 ### How to view a recipe in details
 - Click the recipe you want to view, it wil instantly open a detailed page showing the recipe's name, ingredients and directions ? instruction for you to follow
 
@@ -70,3 +61,22 @@ For directions / instructions:
 - Click on the recipe you want to delete, `you have to be authorized and the recipe you are delete muust be yours`.
 
 - Once its open click the `trash` or `delete` button on your top-right corner.
+
+### Development
+- [/public]("./public") - contains all static assets like images, css, js, svg and manifest.json
+- [/src]("/src") - contain all the code and logic
+- All the routes are allocated in [/src/routes]("./src/routes")
+    - `/src/routes/view.mjs` - this contains all the views routes for rendering the handlebars templates in [/src/views]("/src/views")
+    - `/src/routes/index.mjs` - this contains all the api routes for controllers in [/src/controllers]("/src/controllers")
+- `.env` - contains all environment variables
+    ```bash
+    MONGODB_URI=your_mongodb_uri
+    GITHUB_CLIENT_ID=your_client_id
+    GITHUB_CLIENT_SECRET=your_client_secret
+    GITHUB_REDIRECT_URI=http://localhost:8000/auth/github/callback
+
+    #unsplash
+    UNSPLASH_ACCESS_KEY=
+    UNSPLASH_SECRET_KEY=
+    ```
+- `/src/middleware.mjs` - handle authentication logic 
