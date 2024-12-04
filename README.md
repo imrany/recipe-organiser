@@ -54,6 +54,14 @@ For directions / instructions:
 > `- Warm the water`<br/>
 `- Stir the hot water while adding cocoa powder`
 
+### How to view a recipe in details
+- Click the recipe you want to view, it wil instantly open a detailed page showing the recipe's name, ingredients and directions ? instruction for you to follow
+
+### How to delete a recipe
+- Click on the recipe you want to delete, `you have to be authorized and the recipe you are delete muust be yours`.
+
+- Once its open click the `trash` or `delete` button on your top-right corner.
+
 ### Development
 - [/public]("./public") - contains all static assets like images, css, js, svg and manifest.json
 - [/src]("/src") - contain all the code and logic
@@ -62,11 +70,3 @@ For directions / instructions:
     - `/src/routes/index.mjs` - this contains all the api routes for controllers in [/src/controllers]("/src/controllers")
 - `.env` - contains all environment variables
 - `/src/middleware.mjs` - handle authentication logic 
-
-### How to view a recipe in details
-- Click the recipe you want to view, it wil instantly open a detailed page showing the recipe's name, ingredients and directions ? instruction for you to follow
-
-### How to delete a recipe
-- Click on the recipe you want to delete, `you have to be authorized and the recipe you are delete muust be yours`.
-
-- Once its open click the `trash` or `delete` button on your top-right corner.
