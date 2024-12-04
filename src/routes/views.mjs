@@ -5,13 +5,29 @@ import recipeModel from "../models/recipe.mjs";
 
 const views=express.Router();
 
-views.get("/",(req,res)=>{
+//get: https://example.com/?recipe_name=chocolate
+views.get("/",async(req,res)=>{
     if(req.session.user){
         res.redirect("/recipes")
     }else{
-        res.render('home',{ title : "Home page"})
+        const { recipe_name }=req.query
+        const recipes= recipe_name?await recipeModel.find({recipe_name}).sort({created_at:-1}).lean():await recipeModel.find({}).sort({created_at:-1}).lean()
+        res.render('home',{ 
+            title: recipe_name?recipe_name:'Home page', 
+            user: req.session.user, 
+            recipes,
+            links: [ 
+                { label: 'Contact us', href: '/#contact', class: 'hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2' }, 
+                { label: 'Login', href: '/login', class: 'hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2' }, 
+            ], 
+            mobileLinks: [ 
+                { label: 'Contact us', href: '/#contact', icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>', class:"hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2" },
+                { label: 'Login', href: '/login', icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>', class:"hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2" },
+            ] 
+        })
     }
 })
+
 
 views.get("/login",(req,res)=>{
     if(req.session.user){
@@ -106,6 +122,30 @@ views.get("/recipes/:id", isAuthenticated, async(req,res)=>{
     })
 })
 
+views.get("/public/recipes/:id", async(req,res)=>{
+    const { id }=req.params
+    const recipe= await recipeModel.findById({_id:id})
+    let updatedRecipe = { 
+        image:recipe.image,
+        recipe_name:recipe.recipe_name,
+        _id:recipe._id,
+        markedIngredients: makeMdList(recipe.ingredients),
+        markedDirections: makeMdList(recipe.directions)
+    };
+    res.render('recipe',{ 
+        title: recipe.recipe_name, 
+        recipe:updatedRecipe,
+        links: [ 
+            { label: 'Contact us', href: '/#contact', class: 'hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2' }, 
+            { label: 'Login', href: '/login', class: 'hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2' }, 
+        ], 
+        mobileLinks: [ 
+            { label: 'Contact us', href: '/#contact', icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>', class:"hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2" },
+            { label: 'Login', href: '/login', icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>', class:"hover:bg-gray-200 hover:text-[var(--primary-01)] text-[var(--text-primary-04)] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2" },
+        ] 
+    })
+})
+
 views.get("/edit-recipe/:id", isAuthenticated,async(req,res)=>{
     const { id }=req.params;
     const recipe= await recipeModel.findById({_id:id})
@@ -130,10 +170,19 @@ views.post("/recipes/:id", isAuthenticated,async(req, res)=>{
         const { recipe_name, ingredients, directions }=req.body
         console.log( recipe_name, ingredients, directions)
         if(recipe_name&&ingredients&&directions){
-           await recipeModel.findByIdAndUpdate({_id:id},{
-                ...req.body
-           })
-           res.status(200).redirect(`/recipes/${id}`)
+            const { data } = await axios.get(`https://api.unsplash.com/search/photos`, { 
+                params: { 
+                    query: recipe_name, client_id: `${process.env.UNSPLASH_ACCESS_KEY}`, per_page: 1 
+                } 
+            }); 
+            const image = data.results[0].urls.small
+            if(image){
+                await recipeModel.findByIdAndUpdate({_id:id},{
+                    ...req.body,
+                    image
+                })
+               res.status(200).redirect(`/recipes/${id}`)
+            }
         }else{
             res.status(408).render(`edit-recipe`,{ 
                 title: `Edit ${recipe.recipe_name} recipe`, 

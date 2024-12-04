@@ -1,7 +1,7 @@
 {
-    "name":"Sponsor opensource projects",
-    "short_name":"Sponsort opensource projects",
-    "description":"Contribute and sponsor kenyan opensource projects",
+    "name":"Recipe organiser",
+    "short_name":"Recipe organiser",
+    "description":"Create, organise and discover new recipes",
     "display":"fullscreen",
     "orientation":"portrait",
     "start_url":"/",

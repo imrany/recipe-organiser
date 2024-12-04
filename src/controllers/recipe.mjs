@@ -19,7 +19,7 @@ export const addRecipe = async (req, res) => {
                 }); 
                 const image = data.results[0].urls.small
                 console.log(image)
-                const addedRecipe=await recipeModel.create({recipe_name, ingredients, directions, email, image})
+                const addedRecipe=await recipeModel.create({recipe_name, ingredients:ingredients.trim(), directions:directions.trim(), email, image})
                 if(addedRecipe){
                     return res.redirect("/recipes")
                 }
@@ -32,13 +32,3 @@ export const addRecipe = async (req, res) => {
         res.status(500).render("add-recipe",{ title:"Add new recipe", error: "Internal Server Error" });
     }
 }
-
-export const fetchRecipes = async (req, res) => {
-    try {
-        const recipes=await recipeModel.find({}).sort({created_at:-1})
-        res.status(200).json({recipes})
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-};
