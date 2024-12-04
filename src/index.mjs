@@ -36,6 +36,22 @@ app.set('views', __dirname + '/views')
 app.use(views)
 app.use('/api', router);
 
+app.get('/auth/github', (req, res) => {
+  const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_REDIRECT_URI } = process.env; 
+  const url = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${GITHUB_REDIRECT_URI}`; 
+  res.redirect(url); 
+}); 
+app.get('/auth/github/callback', async (req, res) => { 
+  const { code } = req.query; 
+  const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_REDIRECT_URI } = process.env; 
+  const response = await axios.post('https://github.com/login/oauth/access_token', { client_id: GITHUB_CLIENT_ID, client_secret: GITHUB_CLIENT_SECRET, code: code, }); 
+  const accessToken = response.data.access_token; 
+  const userResponse = await axios.get('https://api.github.com/user', { 
+      headers: { Authorization: `Bearer ${accessToken}` }, 
+  }); 
+  res.send(userResponse.data); 
+});
+
 const MONGODB_URI = `${process.env.MONGODB_URI}`;
 if (!MONGODB_URI) {
   throw new Error(

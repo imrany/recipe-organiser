@@ -9,12 +9,16 @@ views.get("/",(req,res)=>{
     if(req.session.user){
         res.redirect("/recipes")
     }else{
-        res.render('login',{ title : "Welcome back"})
+        res.render('home',{ title : "Home page"})
     }
 })
 
 views.get("/login",(req,res)=>{
-    res.redirect('/')
+    if(req.session.user){
+        res.redirect("/recipes")
+    }else{
+        res.render('login',{ title : "Welcome back"})
+    }
 })
 
 views.get("/forgot-password",(req,res)=>{
